@@ -1,0 +1,39 @@
+<% if @status == 1 %>
+	Game ID is <%= @id.to_s %>, waiting for players to join...
+
+	<script>
+		
+		setInterval(function() {
+			$.ajax({
+			  url: "findPlayer",
+			}).done(function(data) {
+				if(data=="Ok")
+			  		window.location = "connect4" + "/" + <%= @id.to_s %>
+			});
+		}, 1000);
+
+	</script>
+
+<% end %>
+
+<% if @status == 2 %>
+	Waiting for some players to create a game...
+
+	<script>
+		
+		setInterval(function() {
+			$.ajax({
+			  url: "joinGame",
+			  data: { p: "<%= @player %>"}
+			}).done(function(data) {
+				if(data!="...")
+			  		window.location = "connect4"
+			});
+		}, 1000);
+
+	</script>
+
+
+<% end %>
+
+

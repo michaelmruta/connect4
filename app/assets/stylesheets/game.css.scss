@@ -1,0 +1,21 @@
+// Place all the styles related to the Game controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.game-cell {
+	height: 50px;
+	width: 50px;
+	display: inline-block;
+	bacground-color: #333;
+	border: 1px solid black;
+	border-radius: 40px;
+	cursor: pointer;
+}
+
+.blue {
+	background-color: #65F;
+}
+
+.red {
+	background-color: #F65;
+}

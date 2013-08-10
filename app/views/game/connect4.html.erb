@@ -1,0 +1,123 @@
+<% for y in 1..6 %>
+<% for x in 1..6 %>
+<div x="<%= x %>" y="<%= y %>" class="game-cell"></div>
+<% end %>
+<br/>
+<% end %>
+
+<hr />
+<h2 id="winner"></h2></br>
+
+<span>
+
+Game ID is <%= session[:gameId] %><br/>
+
+I am player <%= session[:playerId] %>, my Color is <%= @myColor %><br/>
+
+Player 1 name is <%= @player1 %><br/>
+Player 2 name is <%= @player2 %><br/>
+
+Player <span id="wt"></span>'s turn<br/>
+
+</span>
+
+
+
+
+<script type="text/javascript">
+
+	var gameId = "<%= session[:gameId] %>";
+	var gamestate = <%= @gamestate %>;
+	
+	var myPlayerId = "<%= session[:playerId] %>";
+	var myColor = "<%= @myColor %>";
+
+	var whosTurn = "";
+	var animating = false;
+
+	var refresher;
+
+	function redrawGameState(){
+
+		$.ajax({
+  		  data: { id:gameId },
+		  url:  "<%=  url_for :controller => 'game', :action => 'gamestate' %>",
+		}).done(function(data) {
+
+		   whosTurn = data[0].turn;
+		   grid = data[0].grid;
+		   state = data[0].state;
+
+		   $("#winner").html(state);
+
+		   if(state != "") {
+		   		$(".game-cell").unbind("click");
+		   }
+		   
+		   $("#wt").html(whosTurn);
+
+			$(".game-cell").removeClass("blue");
+			$(".game-cell").removeClass("red");
+
+		   for (var x = 0; x < 6; x++) {
+		   	for (var y = 0; y < 6; y++) {
+
+		   		if( grid[x][y] == "1" ) {
+		   			$(".game-cell[x="+(x+1)+"][y="+(y+1)+"]").addClass("red");
+		   		} else if( grid[x][y] == "2" ) { 
+		   			$(".game-cell[x="+(x+1)+"][y="+(y+1)+"]").addClass("blue");
+		   		}	
+				
+		   	};
+		   };
+
+		});
+	}
+
+	function sendSelection(x,y){
+		$.ajax({
+  		 	data: {	x:x, 
+	  		  		y:y },
+		  		url: "<%=  url_for :controller => 'game', :action => 'buttonPressed' %>",
+		}).done(function(data) {
+		 	whosTurn = (whosTurn % 2) + 1;
+		});
+	}
+
+	function animateSelection(x,y){
+		var n = parseInt(y) + 1;
+
+		if(!$(".game-cell[x="+x+"][y="+n+"]").hasClass("red") && 
+		   !$(".game-cell[x="+x+"][y="+n+"]").hasClass("blue") && y < 6) {
+			
+			$(".game-cell[x="+x+"][y="+y+"]").removeClass(myColor);
+			$(".game-cell[x="+x+"][y="+n+"]").addClass(myColor);
+			setTimeout(function() { animateSelection(x,n) }, 100);
+			animating = true;
+		} else {
+			sendSelection(x,y);
+			animating = false;
+		}
+	}
+
+	$(".game-cell").click( function(){
+
+		if(!animating) {
+			if(!($(this).hasClass("red") || $(this).hasClass("blue"))) {			
+				if(whosTurn == myPlayerId) {
+					x = $(this).attr("x");
+					y = $(this).attr("y");
+					$(".game-cell[x="+x+"][y="+y+"]").addClass(myColor);
+					animateSelection(x,y);
+				}
+			}
+
+		}
+
+	});
+
+	refresher = setInterval(function() {
+	 	redrawGameState();
+	 	},1000);
+
+</script>

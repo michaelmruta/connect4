@@ -1,0 +1,11 @@
+<%= form_tag(:controller=>"game", :action=>"play") do %>
+
+<label><%= @status %></label>
+
+<input name="player" class="form-control " type="text" name="opponent" placeholder="Player's Name"
+required />
+
+<input type="submit" name="choice" class="form-control" value="Create Game">
+<input type="submit" name="choice" class="form-control" value="Join Game">
+
+<% end %>

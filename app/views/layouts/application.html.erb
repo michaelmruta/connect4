@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connect4</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div class='row'>
+<div class="well col-lg-4 col-lg-offset-4">
+	
+		<h2>Connect 4 (6x6)</h2>
+		<p>author: michaelmruta@yahoo.com &lt;aug 9, 2013&gt;</p>
+
+
+<%= yield %>
+</div>
+</div>
+
+</body>
+</html>

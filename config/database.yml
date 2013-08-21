@@ -9,20 +9,15 @@
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: connect4_development
   pool: 5
-  timeout: 5000
-
-  # adapter: mysql2
-  # encoding: utf8
-  # reconnect: false
-  # database: connect4_development
-  # pool: 5
-  # username: root
-  # password: root
-  # host: localhost
-  # socket: /Applications/MAMP/tmp/mysql/mysql.sock
+  username: root
+  password: root
+  host: localhost
+  socket: /Applications/MAMP/tmp/mysql/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -39,17 +34,12 @@ test:
   socket: /Applications/MAMP/tmp/mysql/mysql.sock
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: heroku_d6536308c9b3501
   pool: 5
-  timeout: 5000
-
-  # adapter: mysql2
-  # encoding: utf8
-  # reconnect: false
-  # database: connect4_production
-  # pool: 5
-  # username: root
-  # password: root
-  # host: localhost
+  username: b073952530358c
+  password: b1d39f74
+  host: localhost
   # socket: /Applications/MAMP/tmp/mysql/mysql.sock
